@@ -12,6 +12,6 @@ func handlerLogin(s *state, cmd command) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("app state has been set to given user")
+	fmt.Printf("app state has been set to given user: %s\n", usernameEntered)
 	return nil
 }
