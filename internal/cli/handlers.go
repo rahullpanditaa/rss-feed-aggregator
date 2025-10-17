@@ -2,13 +2,13 @@ package cli
 
 import "fmt"
 
-func handlerLogin(s *state, cmd command) error {
-	if len(cmd.commandArgs) == 0 {
+func HandlerLogin(s *State, cmd Command) error {
+	if len(cmd.CommandArgs) == 0 {
 		return ErrLoginCommandInvalidArgs
 	}
 
-	usernameEntered := cmd.commandArgs[0]
-	err := s.applicationState.SetUser(usernameEntered)
+	usernameEntered := cmd.CommandArgs[0]
+	err := s.ApplicationState.SetUser(usernameEntered)
 	if err != nil {
 		return err
 	}

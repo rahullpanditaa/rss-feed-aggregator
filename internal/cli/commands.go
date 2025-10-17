@@ -2,30 +2,30 @@ package cli
 
 import "fmt"
 
-type command struct {
-	commandName string
-	commandArgs []string
+type Command struct {
+	CommandName string
+	CommandArgs []string
 }
 
-type commands struct {
-	cmdNamesAndHandlers map[string]func(*state, command) error
+type Commands struct {
+	CmdsRegistry map[string]func(*State, Command) error
 }
 
 // register will register a new handler function for
 // a command name.
-func (c *commands) register(name string, f func(*state, command) error) {
-	_, exists := c.cmdNamesAndHandlers[name]
+func (c *Commands) Register(name string, f func(*State, Command) error) {
+	_, exists := c.CmdsRegistry[name]
 	if exists {
 		fmt.Printf("given command %s already exists", name)
 		return
 	}
-	c.cmdNamesAndHandlers[name] = f
+	c.CmdsRegistry[name] = f
 }
 
 // run executes the given cli command if it exists with
 // the provided state.
-func (c *commands) run(s *state, cmd command) error {
-	cmdFunc, exists := c.cmdNamesAndHandlers[cmd.commandName]
+func (c *Commands) Run(s *State, cmd Command) error {
+	cmdFunc, exists := c.CmdsRegistry[cmd.CommandName]
 	if !exists {
 		return ErrCommandDoesNotExist
 	}
