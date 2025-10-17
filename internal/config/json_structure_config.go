@@ -6,11 +6,11 @@ import (
 	"path/filepath"
 )
 
-const configFileName = ".rssfeedconfig.json"
+const configFileName = "rssfeedconfig.json"
 
 type Config struct {
-	DbURL           string
-	CurrentUserName string
+	DbURL           string `json:"db_url"`
+	CurrentUserName string `json:"current_user_name"`
 }
 
 func Read() (Config, error) {
