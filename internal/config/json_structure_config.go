@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 )
 
-const configFileName = "rssfeedconfig.json"
+const configFileName = ".rssfeedconfig.json"
 
 type Config struct {
 	DbURL           string `json:"db_url"`

@@ -13,7 +13,7 @@ func main() {
 	appState, err := config.Read()
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(-1)
+		os.Exit(1)
 	}
 
 	state := cli.State{ApplicationState: &appState}
@@ -21,7 +21,7 @@ func main() {
 
 	if len(os.Args) < 2 {
 		fmt.Fprintln(os.Stderr, "too few command-line arguments")
-		os.Exit(-1)
+		os.Exit(1)
 	}
 
 	cmdNameEntered := os.Args[1]
@@ -34,6 +34,6 @@ func main() {
 	err = commands.Run(&state, cmd)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
-		os.Exit(-1)
+		os.Exit(1)
 	}
 }
