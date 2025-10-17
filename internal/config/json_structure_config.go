@@ -2,32 +2,58 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
+	"path/filepath"
 )
+
+const configFileName = ".rssfeedconfig.json"
 
 type Config struct {
 	DbURL           string
 	CurrentUserName string
 }
 
-func Read() Config {
-	fileName, err := os.UserHomeDir()
-	assertError(err, nil)
+func Read() (Config, error) {
+	fileName, err := getConfigFilePath()
+	if err != nil {
+		return Config{}, err
+	}
 
 	fileContents, err := os.ReadFile(fileName)
-	assertError(err, nil)
+	if err != nil {
+		return Config{}, err
+	}
 
 	var configContents Config
 	err = json.Unmarshal(fileContents, &configContents)
-	assertError(err, nil)
+	if err != nil {
+		return Config{}, err
+	}
 
-	return configContents
+	return configContents, nil
 }
 
-func assertError(got, want error) {
-	if got != want {
-		fmt.Printf("%v\n", got)
-		os.Exit(-1)
+func (c *Config) SetUser(userName string) error {
+	(*c).CurrentUserName = userName
+
+	data, err := json.Marshal(*c)
+	if err != nil {
+		return err
 	}
+
+	fileName, err := getConfigFilePath()
+	if err != nil {
+		return err
+	}
+
+	return os.WriteFile(fileName, data, 0600)
+}
+
+func getConfigFilePath() (string, error) {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return "", err
+	}
+
+	return filepath.Join(homeDir, configFileName), nil
 }
