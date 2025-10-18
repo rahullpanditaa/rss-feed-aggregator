@@ -84,7 +84,11 @@ func HandlerRegister(s *State, cmd Command) error {
 	return nil
 }
 
+// HandlerReset resets the users table
 func HandlerReset(s *State, cmd Command) error {
+	if len(cmd.CommandArgs) != 0 {
+		return ErrResetCommandInvalidArgs
+	}
 	err := s.DbQueries.DeleteAllUsers(context.Background())
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "could not reset database:", err)

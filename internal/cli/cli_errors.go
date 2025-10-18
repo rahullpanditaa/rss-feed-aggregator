@@ -7,4 +7,5 @@ var (
 	ErrRegisterCommandInvalidArgs = errors.New("usage: register <username>")
 	ErrCommandDoesNotExist        = errors.New("cannot run command as it doesn't exist")
 	ErrUserDoesNotExist           = errors.New("user does not exist")
+	ErrResetCommandInvalidArgs    = errors.New("reset does not take any arguments")
 )
