@@ -19,7 +19,16 @@ func HandlerLogin(s *State, cmd Command) error {
 	}
 
 	usernameEntered := cmd.CommandArgs[0]
-	err := s.ApplicationState.SetUser(usernameEntered)
+	_, err := s.DbQueries.GetUser(context.Background(), usernameEntered)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			// user does not exist
+			fmt.Fprintln(os.Stderr, ErrUserDoesNotExist)
+			os.Exit(1)
+		}
+		return err
+	}
+	err = s.ApplicationState.SetUser(usernameEntered)
 	if err != nil {
 		return err
 	}

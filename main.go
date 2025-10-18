@@ -24,7 +24,7 @@ func main() {
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err, "could not open specified db")
-		os.Exit(-1)
+		os.Exit(1)
 	}
 	defer db.Close()
 
@@ -37,6 +37,8 @@ func main() {
 	commands := cli.Commands{
 		CmdsRegistry: make(map[string]func(*cli.State, cli.Command) error),
 	}
+	commands.Register("register", cli.HandlerRegister)
+	commands.Register("login", cli.HandlerLogin)
 
 	if len(os.Args) < 2 {
 		fmt.Fprintln(os.Stderr, "too few command-line arguments")
@@ -50,11 +52,10 @@ func main() {
 		CommandArgs: cmdArgsEntered,
 	}
 
-	commands.Register(cmdNameEntered, cli.HandlerRegister)
-
 	err = commands.Run(&state, cmd)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
+
 }
