@@ -12,7 +12,6 @@ import (
 )
 
 func main() {
-
 	// read json file, store fields in a struct
 	appState, err := config.Read()
 	if err != nil {
@@ -20,7 +19,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	// state := cli.State{ApplicationState: &appState}
 	dbURL := appState.DbURL
 
 	db, err := sql.Open("postgres", dbURL)
@@ -36,28 +34,27 @@ func main() {
 		DbQueries:        dbQueries,
 	}
 
-	// commands := cli.Commands{
-	// 	CmdsRegistry: make(map[string]func(*cli.State, cli.Command) error),
-	// }
+	commands := cli.Commands{
+		CmdsRegistry: make(map[string]func(*cli.State, cli.Command) error),
+	}
 
-	// state := cli.State{ApplicationState: &appState}
-	// commands := cli.Commands{CmdsRegistry: make(map[string]func(*cli.State, cli.Command) error)}
+	if len(os.Args) < 2 {
+		fmt.Fprintln(os.Stderr, "too few command-line arguments")
+		os.Exit(1)
+	}
+	cmdNameEntered := os.Args[1]
+	cmdArgsEntered := os.Args[2:]
 
-	// if len(os.Args) < 2 {
-	// 	fmt.Fprintln(os.Stderr, "too few command-line arguments")
-	// 	os.Exit(1)
-	// }
+	cmd := cli.Command{
+		CommandName: cmdNameEntered,
+		CommandArgs: cmdArgsEntered,
+	}
 
-	// cmdNameEntered := os.Args[1]
-	// cmdArgsEntered := os.Args[2:]
+	commands.Register(cmdNameEntered, cli.HandlerRegister)
 
-	// cmd := cli.Command{CommandName: cmdNameEntered,
-	// 	CommandArgs: cmdArgsEntered}
-
-	// commands.Register(cmdNameEntered, cli.HandlerLogin)
-	// err = commands.Run(&state, cmd)
-	// if err != nil {
-	// 	fmt.Fprintln(os.Stderr, err)
-	// 	os.Exit(1)
-	// }
+	err = commands.Run(&state, cmd)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
