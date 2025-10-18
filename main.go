@@ -39,6 +39,7 @@ func main() {
 	}
 	commands.Register("register", cli.HandlerRegister)
 	commands.Register("login", cli.HandlerLogin)
+	commands.Register("reset", cli.HandlerReset)
 
 	if len(os.Args) < 2 {
 		fmt.Fprintln(os.Stderr, "too few command-line arguments")

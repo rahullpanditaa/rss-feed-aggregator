@@ -36,6 +36,9 @@ func HandlerLogin(s *State, cmd Command) error {
 	return nil
 }
 
+// HandlerRegister is called when the register command is
+// entered in the cli. Create a new user in the db and
+// updates the config struct to hold the username
 func HandlerRegister(s *State, cmd Command) error {
 	if len(cmd.CommandArgs) == 0 {
 		return ErrRegisterCommandInvalidArgs
@@ -78,5 +81,15 @@ func HandlerRegister(s *State, cmd Command) error {
 	fmt.Println("Username:", user.Name)
 	fmt.Println("Created at:", user.CreatedAt)
 
+	return nil
+}
+
+func HandlerReset(s *State, cmd Command) error {
+	err := s.DbQueries.DeleteAllUsers(context.Background())
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "could not reset database:", err)
+		os.Exit(1)
+	}
+	fmt.Println("Database reset, deleted all users")
 	return nil
 }
