@@ -2,11 +2,18 @@ package cli
 
 import "fmt"
 
+// Represents a single cli command.
+// CommandName - name of the cli command
+// CommandArgs - slice of arguments for the command
 type Command struct {
 	CommandName string
 	CommandArgs []string
 }
 
+// Commands struct holds a map that acts as a registry
+// of valid cli commands for the application
+// map key - name of command,
+// value - corresponding handler function
 type Commands struct {
 	CmdsRegistry map[string]func(*State, Command) error
 }
