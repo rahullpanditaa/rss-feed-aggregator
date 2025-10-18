@@ -8,4 +8,5 @@ var (
 	ErrCommandDoesNotExist        = errors.New("cannot run command as it doesn't exist")
 	ErrUserDoesNotExist           = errors.New("user does not exist")
 	ErrResetCommandInvalidArgs    = errors.New("reset does not take any arguments")
+	ErrUsersCommandInvalidArgs    = errors.New("users does not take any arguments")
 )

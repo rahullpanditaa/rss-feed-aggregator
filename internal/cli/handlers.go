@@ -97,3 +97,24 @@ func HandlerReset(s *State, cmd Command) error {
 	fmt.Println("Database reset, deleted all users")
 	return nil
 }
+
+// HandlerUsers will print all the users to the console,
+// along with specifying which user is currently logged-in
+func HandlerUsers(s *State, cmd Command) error {
+	if len(cmd.CommandArgs) != 0 {
+		return ErrUsersCommandInvalidArgs
+	}
+	allUsers, err := s.DbQueries.GetUsers(context.Background())
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "could not retrieve all users:", err)
+		os.Exit(1)
+	}
+	for _, user := range allUsers {
+		if user.Name == s.ApplicationState.CurrentUserName {
+			fmt.Printf("* %s (current)\n", user.Name)
+			continue
+		}
+		fmt.Printf("* %s\n", user.Name)
+	}
+	return nil
+}
