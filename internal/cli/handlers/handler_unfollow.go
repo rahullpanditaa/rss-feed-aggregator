@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/rahullpanditaa/rssfeedaggregator/internal/cli"
 	"github.com/rahullpanditaa/rssfeedaggregator/internal/database"
@@ -31,5 +32,6 @@ func HandlerUnfollow(s *cli.State, cmd cli.Command, user database.User) error {
 	if err != nil {
 		return err
 	}
+	fmt.Printf("%s has unfollowed from the feed: %s\n", user.Name, feedURL)
 	return nil
 }
