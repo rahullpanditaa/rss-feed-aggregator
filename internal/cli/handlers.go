@@ -130,6 +130,6 @@ func HandlerAgg(s *State, cmd Command) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(&feedStruct)
+	fmt.Println(feedStruct)
 	return nil
 }
