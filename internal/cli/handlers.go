@@ -176,5 +176,21 @@ func HandlerAddFeed(s *State, cmd Command) error {
 	fmt.Printf("User connected to this feed: %v\n", feed.UserID)
 
 	return nil
+}
+
+func HandlerFeeds(s *State, cmd Command) error {
+	if len(cmd.CommandArgs) != 0 {
+		return ErrFeedsCommandInvalidArgs
+	}
+
+	allFeeds, err := s.DbQueries.GetAllFeedsWithUser(context.Background())
+	if err != nil {
+		return err
+	}
+
+	for _, feed := range allFeeds {
+		fmt.Printf("Feed name: %s, feed url: %s, created by %s\n", feed.Name, feed.Url, feed.UserName)
+	}
+	return nil
 
 }

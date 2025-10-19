@@ -10,16 +10,16 @@ import (
 )
 
 const getAllFeedsWithUser = `-- name: GetAllFeedsWithUser :many
-SELECT "feeds"."name", "feeds"."url", "users"."name"
+SELECT "feeds"."name", "feeds"."url", "users"."name" AS "user_name"
 FROM "feeds"
 JOIN "users"
 ON "feeds"."user_id" = "users"."id"
 `
 
 type GetAllFeedsWithUserRow struct {
-	Name   string
-	Url    string
-	Name_2 string
+	Name     string
+	Url      string
+	UserName string
 }
 
 func (q *Queries) GetAllFeedsWithUser(ctx context.Context) ([]GetAllFeedsWithUserRow, error) {
@@ -31,7 +31,7 @@ func (q *Queries) GetAllFeedsWithUser(ctx context.Context) ([]GetAllFeedsWithUse
 	var items []GetAllFeedsWithUserRow
 	for rows.Next() {
 		var i GetAllFeedsWithUserRow
-		if err := rows.Scan(&i.Name, &i.Url, &i.Name_2); err != nil {
+		if err := rows.Scan(&i.Name, &i.Url, &i.UserName); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
