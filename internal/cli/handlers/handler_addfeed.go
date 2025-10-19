@@ -12,14 +12,7 @@ import (
 
 // HandlerAddFeed creates a new feed, given a feed name and url as command line arguments.
 // It also creates a new feed_follow record afterwards
-func HandlerAddFeed(s *cli.State, cmd cli.Command) error {
-	currentUser := s.ApplicationState.CurrentUserName
-	user, err := s.DbQueries.GetUser(context.Background(), currentUser)
-	if err != nil {
-		return err
-	}
-	currentUserId := user.ID
-
+func HandlerAddFeed(s *cli.State, cmd cli.Command, user database.User) error {
 	if len(cmd.CommandArgs) != 2 {
 		return cli.ErrAddFeedCommandInvalidArgs
 	}
@@ -34,7 +27,7 @@ func HandlerAddFeed(s *cli.State, cmd cli.Command) error {
 			UpdatedAt: time.Now(),
 			Name:      feedName,
 			Url:       feedUrl,
-			UserID:    currentUserId,
+			UserID:    user.ID,
 		},
 	)
 	if err != nil {

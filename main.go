@@ -43,10 +43,10 @@ func main() {
 	commands.Register("reset", handlers.HandlerReset)
 	commands.Register("users", handlers.HandlerUsers)
 	commands.Register("agg", handlers.HandlerAgg)
-	commands.Register("addfeed", handlers.HandlerAddFeed)
 	commands.Register("feeds", handlers.HandlerFeeds)
-	commands.Register("follow", handlers.HandlerFollow)
-	commands.Register("following", handlers.HandlerFollowing)
+	commands.Register("follow", cli.MiddlewareLoggedIn(handlers.HandlerFollow))
+	commands.Register("following", cli.MiddlewareLoggedIn(handlers.HandlerFollowing))
+	commands.Register("addfeed", cli.MiddlewareLoggedIn(handlers.HandlerAddFeed))
 
 	if len(os.Args) < 2 {
 		fmt.Fprintln(os.Stderr, "too few command-line arguments")

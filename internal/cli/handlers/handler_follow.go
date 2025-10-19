@@ -13,7 +13,7 @@ import (
 // HandlerFollow creates a new feed_follows record for
 // the current user. It also prints the name of the feed
 // and the current user
-func HandlerFollow(s *cli.State, cmd cli.Command) error {
+func HandlerFollow(s *cli.State, cmd cli.Command, user database.User) error {
 	if len(cmd.CommandArgs) != 1 {
 		return cli.ErrFollowCommandInvalidArgs
 	}
@@ -24,14 +24,6 @@ func HandlerFollow(s *cli.State, cmd cli.Command) error {
 		return err
 	}
 
-	// current user
-	currentUsername := s.ApplicationState.CurrentUserName
-	user, err := s.DbQueries.GetUser(context.Background(), currentUsername)
-	if err != nil {
-		return err
-	}
-	currentUserID := user.ID
-
 	// create new feed follow record
 	feed_follow_row, err := s.DbQueries.CreateFeedFollow(
 		context.Background(),
@@ -39,7 +31,7 @@ func HandlerFollow(s *cli.State, cmd cli.Command) error {
 			ID:        uuid.New(),
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
-			UserID:    currentUserID,
+			UserID:    user.ID,
 			FeedID:    feed.ID,
 		},
 	)
