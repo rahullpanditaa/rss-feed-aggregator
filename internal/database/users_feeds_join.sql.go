@@ -9,28 +9,28 @@ import (
 	"context"
 )
 
-const getAllFeedsWithUser = `-- name: GetAllFeedsWithUser :many
+const getAllFeedsWithCreatorUsername = `-- name: GetAllFeedsWithCreatorUsername :many
 SELECT "feeds"."name", "feeds"."url", "users"."name" AS "user_name"
 FROM "feeds"
 JOIN "users"
 ON "feeds"."user_id" = "users"."id"
 `
 
-type GetAllFeedsWithUserRow struct {
+type GetAllFeedsWithCreatorUsernameRow struct {
 	Name     string
 	Url      string
 	UserName string
 }
 
-func (q *Queries) GetAllFeedsWithUser(ctx context.Context) ([]GetAllFeedsWithUserRow, error) {
-	rows, err := q.db.QueryContext(ctx, getAllFeedsWithUser)
+func (q *Queries) GetAllFeedsWithCreatorUsername(ctx context.Context) ([]GetAllFeedsWithCreatorUsernameRow, error) {
+	rows, err := q.db.QueryContext(ctx, getAllFeedsWithCreatorUsername)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetAllFeedsWithUserRow
+	var items []GetAllFeedsWithCreatorUsernameRow
 	for rows.Next() {
-		var i GetAllFeedsWithUserRow
+		var i GetAllFeedsWithCreatorUsernameRow
 		if err := rows.Scan(&i.Name, &i.Url, &i.UserName); err != nil {
 			return nil, err
 		}

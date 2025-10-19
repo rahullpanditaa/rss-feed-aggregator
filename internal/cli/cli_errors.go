@@ -11,4 +11,5 @@ var (
 	ErrUsersCommandInvalidArgs    = errors.New("users does not take any arguments")
 	ErrAddFeedCommandInvalidArgs  = errors.New("usage: addfeed <feed_name> <feed_url>")
 	ErrFeedsCommandInvalidArgs    = errors.New("feeds does not take any arguments")
+	ErrFollowCommandInvalidArgs   = errors.New("usage: follow <feed_url>")
 )

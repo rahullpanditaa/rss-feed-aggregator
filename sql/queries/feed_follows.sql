@@ -7,7 +7,9 @@ WITH "inserted_feed_follow" AS (
     )
     RETURNING *
 )
-SELECT "inserted_feed_follow".*, "users"."name", "feeds"."name"
+SELECT "inserted_feed_follow".*, 
+"users"."name" AS "user_name", 
+"feeds"."name" AS "feed_name"
 FROM "inserted_feed_follow"
 JOIN "users" 
 ON "inserted_feed_follow"."user_id" = "users"."id"

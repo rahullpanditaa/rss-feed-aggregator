@@ -183,7 +183,7 @@ func HandlerFeeds(s *State, cmd Command) error {
 		return ErrFeedsCommandInvalidArgs
 	}
 
-	allFeeds, err := s.DbQueries.GetAllFeedsWithUser(context.Background())
+	allFeeds, err := s.DbQueries.GetAllFeedsWithCreatorUsername(context.Background())
 	if err != nil {
 		return err
 	}
