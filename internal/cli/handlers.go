@@ -172,7 +172,7 @@ func HandlerAddFeed(s *State, cmd Command) error {
 	fmt.Printf("Feed created at: %v\n", feed.CreatedAt)
 	fmt.Printf("Feed updated at: %v\n", feed.UpdatedAt)
 	fmt.Printf("Feed name: %s\n", feed.Name)
-	fmt.Printf("Feed urp: %s\n", feed.Url)
+	fmt.Printf("Feed url: %s\n", feed.Url)
 	fmt.Printf("User connected to this feed: %v\n", feed.UserID)
 
 	return nil
