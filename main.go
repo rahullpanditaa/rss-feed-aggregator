@@ -47,6 +47,7 @@ func main() {
 	commands.Register("follow", cli.MiddlewareLoggedIn(handlers.HandlerFollow))
 	commands.Register("following", cli.MiddlewareLoggedIn(handlers.HandlerFollowing))
 	commands.Register("addfeed", cli.MiddlewareLoggedIn(handlers.HandlerAddFeed))
+	commands.Register("unfollow", cli.MiddlewareLoggedIn(handlers.HandlerUnfollow))
 
 	if len(os.Args) < 2 {
 		fmt.Fprintln(os.Stderr, "too few command-line arguments")
