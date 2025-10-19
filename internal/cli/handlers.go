@@ -3,6 +3,7 @@ package cli
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"os"
 	"time"
@@ -130,6 +131,8 @@ func HandlerAgg(s *State, cmd Command) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(feedStruct)
+
+	b, _ := json.MarshalIndent(feedStruct, "", "  ")
+	fmt.Println(string(b))
 	return nil
 }
