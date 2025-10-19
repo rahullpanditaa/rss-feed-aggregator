@@ -168,6 +168,22 @@ func HandlerAddFeed(s *State, cmd Command) error {
 	if err != nil {
 		return err
 	}
+
+	// create a feed follow record after adding a feed
+	_, err = s.DbQueries.CreateFeedFollow(
+		context.Background(),
+		database.CreateFeedFollowParams{
+			ID:        uuid.New(),
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+			UserID:    feed.UserID,
+			FeedID:    feed.ID,
+		},
+	)
+	if err != nil {
+		return err
+	}
+
 	fmt.Printf("Feed ID: %v\n", feed.ID)
 	fmt.Printf("Feed created at: %v\n", feed.CreatedAt)
 	fmt.Printf("Feed updated at: %v\n", feed.UpdatedAt)
