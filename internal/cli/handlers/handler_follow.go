@@ -28,7 +28,7 @@ func HandlerFollow(s *cli.State, cmd cli.Command) error {
 	currentUsername := s.ApplicationState.CurrentUserName
 	user, err := s.DbQueries.GetUser(context.Background(), currentUsername)
 	if err != nil {
-		return nil
+		return err
 	}
 	currentUserID := user.ID
 

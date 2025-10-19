@@ -7,6 +7,7 @@ import (
 
 	_ "github.com/lib/pq"
 	"github.com/rahullpanditaa/rssfeedaggregator/internal/cli"
+	"github.com/rahullpanditaa/rssfeedaggregator/internal/cli/handlers"
 	"github.com/rahullpanditaa/rssfeedaggregator/internal/config"
 	"github.com/rahullpanditaa/rssfeedaggregator/internal/database"
 )
@@ -44,6 +45,7 @@ func main() {
 	commands.Register("agg", cli.HandlerAgg)
 	commands.Register("addfeed", cli.HandlerAddFeed)
 	commands.Register("feeds", cli.HandlerFeeds)
+	commands.Register("follow", handlers.HandlerFollow)
 
 	if len(os.Args) < 2 {
 		fmt.Fprintln(os.Stderr, "too few command-line arguments")
