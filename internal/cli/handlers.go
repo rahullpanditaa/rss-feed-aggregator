@@ -9,6 +9,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/rahullpanditaa/rssfeedaggregator/internal/database"
+	"github.com/rahullpanditaa/rssfeedaggregator/internal/rss"
 )
 
 // HandlerLogin will update the application state
@@ -120,5 +121,15 @@ func HandlerUsers(s *State, cmd Command) error {
 		}
 		fmt.Printf("* %s\n", user.Name)
 	}
+	return nil
+}
+
+func HandlerAgg(s *State, cmd Command) error {
+	url := "https://www.wagslane.dev/index.xml"
+	feedStruct, err := rss.FetchFeed(context.Background(), url)
+	if err != nil {
+		return err
+	}
+	fmt.Println(&feedStruct)
 	return nil
 }
