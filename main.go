@@ -38,13 +38,13 @@ func main() {
 	commands := cli.Commands{
 		CmdsRegistry: make(map[string]func(*cli.State, cli.Command) error),
 	}
-	commands.Register("register", cli.HandlerRegister)
-	commands.Register("login", cli.HandlerLogin)
-	commands.Register("reset", cli.HandlerReset)
-	commands.Register("users", cli.HandlerUsers)
-	commands.Register("agg", cli.HandlerAgg)
-	commands.Register("addfeed", cli.HandlerAddFeed)
-	commands.Register("feeds", cli.HandlerFeeds)
+	commands.Register("register", handlers.HandlerRegister)
+	commands.Register("login", handlers.HandlerLogin)
+	commands.Register("reset", handlers.HandlerReset)
+	commands.Register("users", handlers.HandlerUsers)
+	commands.Register("agg", handlers.HandlerAgg)
+	commands.Register("addfeed", handlers.HandlerAddFeed)
+	commands.Register("feeds", handlers.HandlerFeeds)
 	commands.Register("follow", handlers.HandlerFollow)
 	commands.Register("following", handlers.HandlerFollowing)
 
