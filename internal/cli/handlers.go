@@ -125,6 +125,9 @@ func HandlerUsers(s *State, cmd Command) error {
 	return nil
 }
 
+// HandlerAgg -> agg command.
+// Will fetch the feed from a url (single, hardcoded for now)
+// and print the struct to console
 func HandlerAgg(s *State, cmd Command) error {
 	url := "https://www.wagslane.dev/index.xml"
 	feedStruct, err := rss.FetchFeed(context.Background(), url)
@@ -135,4 +138,43 @@ func HandlerAgg(s *State, cmd Command) error {
 	b, _ := json.MarshalIndent(feedStruct, "", "  ")
 	fmt.Println(string(b))
 	return nil
+}
+
+func HandlerAddFeed(s *State, cmd Command) error {
+	currentUser := s.ApplicationState.CurrentUserName
+	user, err := s.DbQueries.GetUser(context.Background(), currentUser)
+	if err != nil {
+		return err
+	}
+	currentUserId := user.ID
+
+	if len(cmd.CommandArgs) != 2 {
+		return ErrAddFeedCommandInvalidArgs
+	}
+	feedName := cmd.CommandArgs[0]
+	feedUrl := cmd.CommandArgs[1]
+
+	feed, err := s.DbQueries.CreateFeed(
+		context.Background(),
+		database.CreateFeedParams{
+			ID:        uuid.New(),
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+			Name:      feedName,
+			Url:       feedUrl,
+			UserID:    currentUserId,
+		},
+	)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("Feed ID: %v\n", feed.ID)
+	fmt.Printf("Feed created at: %v\n", feed.CreatedAt)
+	fmt.Printf("Feed updated at: %v\n", feed.UpdatedAt)
+	fmt.Printf("Feed name: %s\n", feed.Name)
+	fmt.Printf("Feed urp: %s\n", feed.Url)
+	fmt.Printf("User connected to this feed: %v\n", feed.UserID)
+
+	return nil
+
 }
