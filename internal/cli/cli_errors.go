@@ -15,4 +15,5 @@ var (
 	ErrFollowingCommandInvalidArgs = errors.New("following does not take any arguments")
 	ErrUnfollowCommandInvalidArgs  = errors.New("usage: unfollow <feed_url>")
 	ErrAggCommandInvalidArgs       = errors.New("usage: agg <time_between_reqs>")
+	ErrBrowseCommandInvalidArgs    = errors.New("usage: browse [limit (default is 2)]")
 )
