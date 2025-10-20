@@ -7,6 +7,7 @@ package database
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/google/uuid"
@@ -86,7 +87,7 @@ func (q *Queries) DeleteFeedFollow(ctx context.Context, arg DeleteFeedFollowPara
 }
 
 const getFeedFollowsForUser = `-- name: GetFeedFollowsForUser :many
-SELECT feed_follows.id, feed_follows.created_at, feed_follows.updated_at, feed_follows.user_id, feed_id, users.id, users.created_at, users.updated_at, users.name, feeds.id, feeds.created_at, feeds.updated_at, feeds.name, url, feeds.user_id, "feeds"."name" AS "feed_name", 
+SELECT feed_follows.id, feed_follows.created_at, feed_follows.updated_at, feed_follows.user_id, feed_id, users.id, users.created_at, users.updated_at, users.name, feeds.id, feeds.created_at, feeds.updated_at, feeds.name, url, feeds.user_id, last_fetched_at, "feeds"."name" AS "feed_name", 
 "users"."name" AS "user_name"
 FROM "feed_follows"
 JOIN "users"
@@ -97,23 +98,24 @@ WHERE "users"."name"=$1
 `
 
 type GetFeedFollowsForUserRow struct {
-	ID          uuid.UUID
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	UserID      uuid.UUID
-	FeedID      uuid.UUID
-	ID_2        uuid.UUID
-	CreatedAt_2 time.Time
-	UpdatedAt_2 time.Time
-	Name        string
-	ID_3        uuid.UUID
-	CreatedAt_3 time.Time
-	UpdatedAt_3 time.Time
-	Name_2      string
-	Url         string
-	UserID_2    uuid.UUID
-	FeedName    string
-	UserName    string
+	ID            uuid.UUID
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	UserID        uuid.UUID
+	FeedID        uuid.UUID
+	ID_2          uuid.UUID
+	CreatedAt_2   time.Time
+	UpdatedAt_2   time.Time
+	Name          string
+	ID_3          uuid.UUID
+	CreatedAt_3   time.Time
+	UpdatedAt_3   time.Time
+	Name_2        string
+	Url           string
+	UserID_2      uuid.UUID
+	LastFetchedAt sql.NullTime
+	FeedName      string
+	UserName      string
 }
 
 func (q *Queries) GetFeedFollowsForUser(ctx context.Context, name string) ([]GetFeedFollowsForUserRow, error) {
@@ -141,6 +143,7 @@ func (q *Queries) GetFeedFollowsForUser(ctx context.Context, name string) ([]Get
 			&i.Name_2,
 			&i.Url,
 			&i.UserID_2,
+			&i.LastFetchedAt,
 			&i.FeedName,
 			&i.UserName,
 		); err != nil {
