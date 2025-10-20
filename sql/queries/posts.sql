@@ -12,7 +12,7 @@ SELECT *
 FROM "posts"
 JOIN "feed_follows"
 ON "posts"."feed_id" = "feed_follows"."feed_id"
-WHERE "feed_dollows"."user_id" = (
+WHERE "feed_follows"."user_id" = (
     SELECT "id" FROM "users"
     WHERE "name" = $1
 )
