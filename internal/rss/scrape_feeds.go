@@ -33,7 +33,7 @@ func ScrapeFeeds(s *cli.State) {
 	feedStruct, err := FetchFeed(context.Background(), feed.Url)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "coud not fetch feed: %v\n", err)
-		os.Exit(1)
+		return
 	}
 
 	// iterate over ITEMS in feed
@@ -43,7 +43,7 @@ func ScrapeFeeds(s *cli.State) {
 
 	// instead of printing titles, save posts to db
 	for _, post := range feedStruct.Channel.Item {
-		postPublicationdate, err := time.Parse(time.RFC1123Z, post.PubDate)
+		postPublicationdate, err := time.Parse(time.RFC1123, post.PubDate)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "unable to convert given post's (%s) pubDate %v\n", post.Title, post.PubDate)
 			continue

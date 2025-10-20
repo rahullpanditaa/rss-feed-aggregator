@@ -29,11 +29,12 @@ func HandlerBrowse(s *cli.State, cmd cli.Command, user database.User) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Posts for user %s, (DISPLAY MAX %d posts)\n", user.Name, limit)
+	// fmt.Printf("Posts for user %s, (DISPLAY MAX %d posts)\n", user.Name, limit)
 	for _, post := range posts {
 		fmt.Printf("Id: %v\n", post.ID)
 		fmt.Printf("Title: %s\n", post.Description.String)
 		fmt.Printf("Description: %s\n", post.Description.String)
+		fmt.Println()
 	}
 
 	return nil
