@@ -9,7 +9,7 @@ import (
 	"github.com/rahullpanditaa/rssfeedaggregator/internal/database"
 )
 
-func HandlerBrowse(s *cli.State, cmd cli.Command) error {
+func HandlerBrowse(s *cli.State, cmd cli.Command, user database.User) error {
 	if len(cmd.CommandArgs) > 1 {
 		return cli.ErrBrowseCommandInvalidArgs
 	}
@@ -29,7 +29,7 @@ func HandlerBrowse(s *cli.State, cmd cli.Command) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Posts for user %s, (DISPLAY MAX %d posts)\n", s.ApplicationState.CurrentUserName, limit)
+	fmt.Printf("Posts for user %s, (DISPLAY MAX %d posts)\n", user.Name, limit)
 	for _, post := range posts {
 		fmt.Printf("Id: %v\n", post.ID)
 		fmt.Printf("Title: %s\n", post.Description.String)

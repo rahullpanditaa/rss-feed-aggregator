@@ -44,11 +44,11 @@ func main() {
 	commands.Register("users", handlers.HandlerUsers)
 	commands.Register("agg", handlers.HandlerAgg)
 	commands.Register("feeds", handlers.HandlerFeeds)
-	commands.Register("browse", handlers.HandlerBrowse)
 	commands.Register("follow", cli.MiddlewareLoggedIn(handlers.HandlerFollow))
 	commands.Register("following", cli.MiddlewareLoggedIn(handlers.HandlerFollowing))
 	commands.Register("addfeed", cli.MiddlewareLoggedIn(handlers.HandlerAddFeed))
 	commands.Register("unfollow", cli.MiddlewareLoggedIn(handlers.HandlerUnfollow))
+	commands.Register("browse", cli.MiddlewareLoggedIn(handlers.HandlerBrowse))
 
 	if len(os.Args) < 2 {
 		fmt.Fprintln(os.Stderr, "too few command-line arguments")
