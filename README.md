@@ -1,4 +1,4 @@
-# Gator - RSS-Feed-Aggregator (CLI)
+# RSS-Feed-Aggregator (CLI)
 
 Command-line RSS feed aggregator written in Go. Register/login, add and follow feeds, browse posts. A background worker continuously fetches and stores posts in PostgreSQL.
 
