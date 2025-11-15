@@ -82,7 +82,7 @@ func main() {
 	err = commands.Run(&state, cmd)
 	if err != nil {
 		if err == cli.ErrCommandDoesNotExist {
-			fmt.Fprintln(os.Stderr, "Unknown command. Run 'rss_feed_aggregator help' for usage")
+			fmt.Fprintln(os.Stderr, "Unknown command. Run 'rss-feed-aggregator help' for usage")
 			os.Exit(1)
 		}
 		fmt.Fprintln(os.Stderr, err)
