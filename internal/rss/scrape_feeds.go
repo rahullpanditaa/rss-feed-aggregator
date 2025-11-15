@@ -36,11 +36,6 @@ func ScrapeFeeds(s *cli.State) {
 		return
 	}
 
-	// iterate over ITEMS in feed
-	// for _, item := range feedStruct.Channel.Item {
-	// 	fmt.Printf("Item title: %s\n", item.Title)
-	// }
-
 	// instead of printing titles, save posts to db
 	for _, post := range feedStruct.Channel.Item {
 		postPublicationdate, err := time.Parse(time.RFC1123, post.PubDate)
@@ -57,7 +52,7 @@ func ScrapeFeeds(s *cli.State) {
 				Title:       post.Title,
 				Url:         post.Link,
 				Description: sql.NullString{String: post.Description, Valid: true},
-				PublishedAt: sql.NullTime{Time: postPublicationdate, Valid: false},
+				PublishedAt: sql.NullTime{Time: postPublicationdate, Valid: true},
 				FeedID:      feed.ID,
 			},
 		)

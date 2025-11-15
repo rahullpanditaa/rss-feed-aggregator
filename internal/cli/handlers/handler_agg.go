@@ -9,13 +9,14 @@ import (
 )
 
 // HandlerAgg -> agg command.
-// Will fetch the feed from a url (single, hardcoded for now)
+// Will fetch the feed from a url
 // and print the struct to console
 func HandlerAgg(s *cli.State, cmd cli.Command) error {
 	if len(cmd.CommandArgs) != 1 {
 		return cli.ErrAggCommandInvalidArgs
 	}
-
+	// user must provide exactly 1 argument
+	// the time between requests
 	time_between_reqs, err := time.ParseDuration(cmd.CommandArgs[0])
 	if err != nil {
 		return err
@@ -23,17 +24,12 @@ func HandlerAgg(s *cli.State, cmd cli.Command) error {
 	fmt.Printf("Collecting feeds every %v\n", time_between_reqs)
 
 	ticker := time.NewTicker(time_between_reqs)
-	for ; ; <-ticker.C {
-		rss.ScrapeFeeds(s)
-	}
-
-	// url := "https://www.wagslane.dev/index.xml"
-	// feedStruct, err := rss.FetchFeed(context.Background(), url)
-	// if err != nil {
-	// 	return err
+	// for ; ; <-ticker.C {
+	// 	rss.ScrapeFeeds(s)
 	// }
 
-	// b, _ := json.MarshalIndent(feedStruct, "", "  ")
-	// fmt.Println(string(b))
-	// return nil
+	for {
+		rss.ScrapeFeeds(s)
+		<-ticker.C
+	}
 }

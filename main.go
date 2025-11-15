@@ -13,15 +13,17 @@ import (
 )
 
 func main() {
-	// read json file, store fields in a struct
+	// read json file, store fields in a Config struct
 	appState, err := config.Read()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err, "could not read config json")
 		os.Exit(1)
 	}
 
+	// extract db url from config struct
 	dbURL := appState.DbURL
 
+	// create connection pool
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err, "could not open specified db")
@@ -29,15 +31,24 @@ func main() {
 	}
 	defer db.Close()
 
+	// get a pointer to a Queries struct, used to
+	// run all sqlc generated sql query -> Go code
 	dbQueries := database.New(db)
+
+	// create State object - holds pointer to the app state,
+	// and a pointer to Queries struct
 	state := cli.State{
 		ApplicationState: &appState,
 		DbQueries:        dbQueries,
 	}
 
+	// create a Commands object
+	// field CmdsRegistry is an empty map - command name -> commandHandlerFunc
 	commands := cli.Commands{
 		CmdsRegistry: make(map[string]func(*cli.State, cli.Command) error),
 	}
+
+	// register all CLI commands
 	commands.Register("register", handlers.HandlerRegister)
 	commands.Register("login", handlers.HandlerLogin)
 	commands.Register("reset", handlers.HandlerReset)

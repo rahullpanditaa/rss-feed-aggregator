@@ -24,17 +24,20 @@ type Config struct {
 // Read reads the config json file, decodes it into a
 // Config struct
 func Read() (Config, error) {
+	// find the config file
 	fileName, err := getConfigFilePath()
 	if err != nil {
 		return Config{}, err
 	}
 
+	// read file into a []bytes
 	fileContents, err := os.ReadFile(fileName)
 	if err != nil {
 		return Config{}, err
 	}
 
 	var configContents Config
+	// decode []bytes -> Go struct
 	err = json.Unmarshal(fileContents, &configContents)
 	if err != nil {
 		return Config{}, err
