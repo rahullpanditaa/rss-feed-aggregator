@@ -1,5 +1,10 @@
 # RSS Feed Aggregator (Go + PostgreSQL)
 
+<p align="center">
+  <img src="screenshots/demo.gif" width="650">
+</p>
+
+
 Command-line RSS feed aggregator written in Go. It allows users to:
 
 * Create and log into accounts
