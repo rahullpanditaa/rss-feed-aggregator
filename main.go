@@ -49,6 +49,7 @@ func main() {
 	}
 
 	// register all CLI commands
+	commands.Register("help", handlers.HandlerHelp)
 	commands.Register("register", handlers.HandlerRegister)
 	commands.Register("login", handlers.HandlerLogin)
 	commands.Register("reset", handlers.HandlerReset)
@@ -73,8 +74,17 @@ func main() {
 		CommandArgs: cmdArgsEntered,
 	}
 
+	if cmdNameEntered == "help" {
+		commands.Run(&state, cmd)
+		return
+	}
+
 	err = commands.Run(&state, cmd)
 	if err != nil {
+		if err == cli.ErrCommandDoesNotExist {
+			fmt.Fprintln(os.Stderr, "Unknown command. Run 'rss_feed_aggregator help' for usage")
+			os.Exit(1)
+		}
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
